@@ -1,0 +1,220 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Type {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  subtypes Subtype[]
+  products Product[]
+}
+
+model Subtype {
+  id               String    @id @default(cuid())
+  name             String    @unique
+  description      String?
+  heroImage        String?
+  seoMetadata      String?
+  region           String?
+  careInstructions String?
+  typeId           String
+  type             Type      @relation(fields: [typeId], references: [id])
+  products         Product[]
+}
+
+model Fabric {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  products Product[]
+}
+
+model Region {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  products Product[]
+}
+
+model Occasion {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  products Product[]
+}
+
+model Color {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  products Product[]
+}
+
+model BorderType {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  products Product[]
+}
+
+model Product {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal
+  typeId      String
+  type        Type    @relation(fields: [typeId], references: [id])
+  subtypeId   String
+  subtype     Subtype @relation(fields: [subtypeId], references: [id])
+
+  fabrics     Fabric[]
+  regions     Region[]
+  occasions   Occasion[]
+  colors      Color[]
+  borderTypes BorderType[]
+
+  blouseIncluded Boolean @default(false)
+  blouseType     String?
+
+  giTag         Boolean @default(false)
+  giTagNumber   String?
+  weaverName    String?
+  certification String?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  popularity     Int       @default(0)
+  rating         Float     @default(0)
+  stock          Int       @default(0)
+  sku            String?   @unique
+
+  orderItems     OrderItem[]
+  wishlistItems  WishlistItem[]
+  cartItems      CartItem[]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("USER")
+  
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
+  addresses     Address[]
+  wishlist      WishlistItem[]
+  cartItems     CartItem[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  street    String
+  city      String
+  state     String
+  pincode   String
+  isDefault Boolean  @default(false)
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+  status          String   @default("PENDING") // PENDING, PAID, SHIPPED, DELIVERED
+  totalAmount     Decimal
+  taxAmount       Decimal
+  discountAmount  Decimal  @default(0)
+  shippingAddress String
+  pincode         String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  priceAtPurchase Decimal
+}
+
+model Synonym {
+  id      String @id @default(cuid())
+  term    String @unique
+  mapTo   String
+}

@@ -51,8 +51,8 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
       
       <main className="flex-1 container mx-auto px-4 md:px-6 py-8">
         <Breadcrumbs items={[
-          { label: product.type.name, href: `/type/${product.type.name.toLowerCase()}` },
-          { label: product.subtype.name, href: `/type/${product.type.name.toLowerCase()}/${product.subtype.name.toLowerCase().replace(/\s+/g, '-')}` },
+          { label: product.type.name, href: `/${product.type.name.toLowerCase()}` },
+          { label: product.subtype.name, href: `/${product.type.name.toLowerCase()}/${product.subtype.name.toLowerCase().replace(/\s+/g, '-')}` },
           { label: product.name, href: `#` }
         ]} />
 

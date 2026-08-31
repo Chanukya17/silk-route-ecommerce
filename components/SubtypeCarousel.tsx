@@ -25,7 +25,7 @@ export default function SubtypeCarousel({ subtypes }: { subtypes: SubtypeProps[]
           return (
             <Link 
               key={subtype.id}
-              href={`/craft/${subtype.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+              href={`/${subtype.type.name.toLowerCase()}/${subtype.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
               className="snap-start shrink-0 w-[280px] md:w-[320px] group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
             >
               <div className="aspect-square relative w-full">

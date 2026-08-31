@@ -14,10 +14,10 @@ export default function Header() {
             SILK & WEAVE
           </Link>
           <nav className="hidden md:flex gap-6 text-sm font-medium">
-            <Link href="#" className="transition-colors hover:text-accent">New Arrivals</Link>
-            <Link href="/type/handloom" className="transition-colors hover:text-accent">Handloom</Link>
-            <Link href="/type/powerloom" className="transition-colors hover:text-accent">Powerloom</Link>
-            <Link href="#" className="transition-colors hover:text-accent">Collections</Link>
+            <Link href="/handloom?sort=newest" className="transition-colors hover:text-accent">New Arrivals</Link>
+            <Link href="/handloom" className="transition-colors hover:text-accent">Handloom</Link>
+            <Link href="/powerloom" className="transition-colors hover:text-accent">Powerloom</Link>
+            <Link href="/#shop" className="transition-colors hover:text-accent">Collections</Link>
           </nav>
         </div>
         <div className="flex items-center gap-4 flex-1 justify-end max-w-md ml-8">

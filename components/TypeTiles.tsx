@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 
 export default function TypeTiles() {
@@ -11,7 +11,7 @@ export default function TypeTiles() {
         
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {/* Handloom Tile */}
-          <Link href="/type/handloom" className="group relative block h-[500px] overflow-hidden rounded-2xl shadow-lg transition-transform hover:shadow-2xl">
+          <Link href="/handloom" className="group relative block h-[500px] overflow-hidden rounded-2xl shadow-lg transition-transform hover:shadow-2xl">
             <Image
               src="/images/handloom_tile.png"
               alt="Handloom Sarees"
@@ -29,7 +29,7 @@ export default function TypeTiles() {
           </Link>
 
           {/* Powerloom Tile */}
-          <Link href="/type/powerloom" className="group relative block h-[500px] overflow-hidden rounded-2xl shadow-lg transition-transform hover:shadow-2xl">
+          <Link href="/powerloom" className="group relative block h-[500px] overflow-hidden rounded-2xl shadow-lg transition-transform hover:shadow-2xl">
             <Image
               src="/images/powerloom_tile.png"
               alt="Powerloom Sarees"

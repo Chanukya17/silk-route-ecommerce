@@ -32,10 +32,10 @@ export default function MobileMenu() {
             </button>
           </div>
           <nav className="flex flex-col gap-6 text-lg font-medium text-primary-900">
-            <Link href="#" onClick={() => setIsOpen(false)} className="border-b border-secondary/20 pb-4 hover:text-accent">New Arrivals</Link>
-            <Link href="/type/handloom" onClick={() => setIsOpen(false)} className="border-b border-secondary/20 pb-4 hover:text-accent">Handloom</Link>
-            <Link href="/type/powerloom" onClick={() => setIsOpen(false)} className="border-b border-secondary/20 pb-4 hover:text-accent">Powerloom</Link>
-            <Link href="#" onClick={() => setIsOpen(false)} className="hover:text-accent">Collections</Link>
+            <Link href="/handloom?sort=newest" onClick={() => setIsOpen(false)} className="border-b border-secondary/20 pb-4 hover:text-accent">New Arrivals</Link>
+            <Link href="/handloom" onClick={() => setIsOpen(false)} className="border-b border-secondary/20 pb-4 hover:text-accent">Handloom</Link>
+            <Link href="/powerloom" onClick={() => setIsOpen(false)} className="border-b border-secondary/20 pb-4 hover:text-accent">Powerloom</Link>
+            <Link href="/#shop" onClick={() => setIsOpen(false)} className="hover:text-accent">Collections</Link>
           </nav>
         </div>
       )}

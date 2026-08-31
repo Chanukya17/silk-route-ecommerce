@@ -1,13 +1,12 @@
-import { PrismaClient, Prisma } from '../../../lib/generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import { Prisma } from '@/lib/generated/prisma/client';
+import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import FilterPanel from '@/components/FilterPanel';
 import SortDropdown from '@/components/SortDropdown';
 import Pagination from '@/components/Pagination';
 import ProductCard from '@/components/ProductCard';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+export const dynamic = 'force-dynamic';
 
 const ITEMS_PER_PAGE = 12;
 

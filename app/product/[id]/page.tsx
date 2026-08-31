@@ -1,5 +1,4 @@
-import { PrismaClient } from '../../../lib/generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -10,8 +9,7 @@ import AddToCartActions from '@/components/pdp/AddToCartActions';
 import ReviewsSection from '@/components/pdp/ReviewsSection';
 import ProductGrid from '@/components/ProductGrid';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+export const dynamic = 'force-dynamic';
 
 export default async function ProductDetailPage({ params }: { params: { id: string } }) {
   const product = await prisma.product.findUnique({

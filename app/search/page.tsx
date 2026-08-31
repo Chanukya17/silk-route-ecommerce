@@ -1,11 +1,9 @@
-import { PrismaClient } from '@/lib/generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import prisma from '@/lib/prisma';
 import ProductGrid from '@/components/ProductGrid';
 import FilterPanel from '@/components/FilterPanel';
 import Header from '@/components/Header';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+export const dynamic = 'force-dynamic';
 
 export default async function SearchResultsPage({
   searchParams

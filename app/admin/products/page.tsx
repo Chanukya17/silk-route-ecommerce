@@ -1,11 +1,9 @@
-import { PrismaClient } from '@/lib/generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import prisma from '@/lib/prisma';
 import { PackageSearch, Upload } from 'lucide-react';
 import CsvUploadForm from './CsvUploadForm';
 import StockEditor from './StockEditor';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+export const dynamic = 'force-dynamic';
 
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({

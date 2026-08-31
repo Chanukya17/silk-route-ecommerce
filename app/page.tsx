@@ -1,15 +1,11 @@
-import { PrismaClient } from '../lib/generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import prisma from '@/lib/prisma';
 import Header from '@/components/Header';
 import HeroBanner from '@/components/HeroBanner';
 import TypeTiles from '@/components/TypeTiles';
 import SubtypeCarousel from '@/components/SubtypeCarousel';
 import ProductGrid from '@/components/ProductGrid';
 
-// We shouldn't instantiate this globally in a real app to avoid connection leaks,
-// but for this scaffolding, it's fine.
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+export const dynamic = 'force-dynamic';
 
 // In Next.js 14 App Router, page.tsx can be an async Server Component
 export default async function Home() {

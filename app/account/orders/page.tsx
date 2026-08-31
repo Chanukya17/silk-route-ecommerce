@@ -1,13 +1,11 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { PrismaClient } from '@/lib/generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import prisma from '@/lib/prisma';
 import { Package, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+export const dynamic = 'force-dynamic';
 
 export default async function OrdersPage() {
   const session = await getServerSession();

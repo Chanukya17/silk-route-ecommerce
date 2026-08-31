@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma';
+﻿import prisma from '@/lib/prisma';
 import Header from '@/components/Header';
 import HeroBanner from '@/components/HeroBanner';
 import TypeTiles from '@/components/TypeTiles';
@@ -7,40 +7,47 @@ import ProductGrid from '@/components/ProductGrid';
 
 export const dynamic = 'force-dynamic';
 
-// In Next.js 14 App Router, page.tsx can be an async Server Component
 export default async function Home() {
-  // Fetch subtypes for carousel
-  const subtypes = await prisma.subtype.findMany({
-    take: 8,
-    include: {
-      type: true
-    }
-  });
+  let subtypes: Awaited<ReturnType<typeof prisma.subtype.findMany<{ include: { type: true } }>>> = [];
+  let trendingProducts: Awaited<ReturnType<typeof prisma.product.findMany<{ include: { subtype: { include: { type: true } } } }>>> = [];
+  let newArrivals: Awaited<ReturnType<typeof prisma.product.findMany<{ include: { subtype: { include: { type: true } } } }>>> = [];
 
-  // Fetch Trending Products (Handloom sarees with high price or specific ones)
-  const trendingProducts = await prisma.product.findMany({
-    where: {
-      type: { name: 'Handloom' }
-    },
-    take: 4,
-    orderBy: {
-      price: 'desc'
-    },
-    include: {
-      subtype: { include: { type: true } }
-    }
-  });
+  try {
+    // Fetch subtypes for carousel
+    subtypes = await prisma.subtype.findMany({
+      take: 8,
+      include: {
+        type: true
+      }
+    });
 
-  // Fetch New Arrivals (Recent Powerloom or general products)
-  const newArrivals = await prisma.product.findMany({
-    take: 4,
-    orderBy: {
-      createdAt: 'desc'
-    },
-    include: {
-      subtype: { include: { type: true } }
-    }
-  });
+    // Fetch Trending Products (Handloom sarees with high price or specific ones)
+    trendingProducts = await prisma.product.findMany({
+      where: {
+        type: { name: 'Handloom' }
+      },
+      take: 4,
+      orderBy: {
+        price: 'desc'
+      },
+      include: {
+        subtype: { include: { type: true } }
+      }
+    });
+
+    // Fetch New Arrivals (Recent Powerloom or general products)
+    newArrivals = await prisma.product.findMany({
+      take: 4,
+      orderBy: {
+        createdAt: 'desc'
+      },
+      include: {
+        subtype: { include: { type: true } }
+      }
+    });
+  } catch (error) {
+    console.error("Database query failed in Home component:", error);
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

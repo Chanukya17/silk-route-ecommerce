@@ -1,10 +1,11 @@
-import NextAuth from "next-auth";
+﻿import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from '@/lib/prisma';
 
-const handler = NextAuth({
+const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET || "silk-route-ecommerce-jwt-secret-key-32-chars",
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -64,8 +65,10 @@ const handler = NextAuth({
     },
   },
   pages: {
-    signIn: '/login', // Optional custom login page, but we'll use a modal or NextAuth default if missing
+    signIn: '/login',
   }
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
